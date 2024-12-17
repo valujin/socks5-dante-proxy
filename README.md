@@ -15,7 +15,7 @@ docker run -d --restart unless-stopped --name dante \
     -p 18989/18989:tcp \
     -e WORKERS=4 \
     -e CONFIG=/etc/sockd.conf \
-    docker.io/aeron/socks5-dante-docker:latest
+    docker.io/valuxin/socks5-dante-docker:latest
 ```
 
 By default, the number of simultaneous workers (the `WORKERS` environment variable)
@@ -51,7 +51,7 @@ To authenticate on a running proxy, you must add a user:
 
 ```sh
 docker run -it --rm --volumes-from dante \
-    aeron/socks5-dante-proxy:latest \
+    valuxin/socks5-dante-proxy:latest \
     add-user [NAME [PASS]]
 # or
 docker exec -it dante /srv/entrypoint.sh add-user [NAME [PASS]]
@@ -64,7 +64,7 @@ To delete a user, use an appropriate command:
 
 ```sh
 docker run -it --rm --volumes-from dante \
-    aeron/socks5-dante-proxy:latest \
+    valuxin/socks5-dante-proxy:latest \
     del-user [NAME]
 # or
 docker exec -it dante /srv/entrypoint.sh del-user [NAME]
@@ -79,7 +79,7 @@ docker run -d --restart unless-stopped --name dante \
     -p 18989/18989:tcp \
     -v /path/to/passwd:/etc/passwd:rw \
     -v /path/to/shadow:/etc/shadow:rw \
-    docker.io/aeron/socks5-dante-docker:latest
+    docker.io/valuxin/socks5-dante-docker:latest
 ```
 
 Replace the `/path/to/passwd` and `/path/to/shadow` with preferred file paths.

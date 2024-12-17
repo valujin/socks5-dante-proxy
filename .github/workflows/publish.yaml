@@ -2,9 +2,10 @@ name: Publish Docker image
 
 on:
   push:
+    
 
 env:
-  # GITHUB_REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/socks5-dante-proxy
+  GITHUB_REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/socks5-dante-proxy
   DOCKER_REGISTRY_IMAGE: docker.io/${{ secrets.DOCKER_USERNAME }}/socks5-dante-proxy
 
 jobs:
@@ -22,17 +23,40 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.GITHUB_REGISTRY_IMAGE }}
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3.2.0
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          tags: >-
+            ${{ steps.recase.outputs.lowercase }}:latest
+            ${{ steps.recase.outputs.lowercase }}:${{ github.ref_name }}
+            ${{ env.DOCKER_REGISTRY_IMAGE }}:latest
+            ${{ env.DOCKER_REGISTRY_IMAGE }}:${{ github.ref_name }}
+          platforms: linux/amd64, linux/arm64
+          containerfiles: |
+            ./dockerfile
+      - name: Log into GitHub Container Registry
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Log into Docker Hub
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push to registries
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          tags: ${{ steps.build-image.outputs.tags }}
+      - name: Update Docker Hub description
+        uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          tags: valuxin/socks5-dante-proxy:latest
+          repository: valuxin/socks5-dante-proxy
+        continue-on-error: true

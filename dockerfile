@@ -24,7 +24,7 @@ ENV CONFIG /etc/sockd.conf
 RUN ln -sf /srv/dante.conf "${CONFIG}"
 
 VOLUME /etc
-EXPOSE 1080
+# EXPOSE 1080
 
 ENTRYPOINT [ "/srv/entrypoint.sh" ]
 CMD [ "start" ]

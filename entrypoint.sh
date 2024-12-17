@@ -13,7 +13,7 @@ fi
 PORT=${PORT:-18989}
 
 # Replace port placeholder in dante.conf
-sed -i "s/__PORT__/$PORT/g" "/Users/valuxin/dev/socks5-dante-proxy/dante.conf"
+sed -i "s/__PORT__/$PORT/g" "/srv/dante.conf"
 
 # shellcheck disable=SC2016
 HELP='Usage: /entrypoint.sh [COMMAND [PARAMS..]]

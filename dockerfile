@@ -1,6 +1,6 @@
 FROM docker.io/bitnami/minideb:bookworm
 
-LABEL org.opencontainers.image.source https://github.com/Aeron/socks5-dante-proxy
+LABEL org.opencontainers.image.source https://github.com/valujin/socks5-dante-proxy
 LABEL org.opencontainers.image.licenses MIT
 
 RUN install_packages \

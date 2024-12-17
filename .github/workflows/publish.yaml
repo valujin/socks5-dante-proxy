@@ -7,7 +7,7 @@ on:
 
 env:
   GITHUB_REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/socks5-dante-proxy
-  DOCKER_REGISTRY_IMAGE: docker.io/aeron/socks5-dante-proxy
+  DOCKER_REGISTRY_IMAGE: docker.io/${{ secrets.DOCKER_USERNAME }}/socks5-dante-proxy
 
 jobs:
   build:

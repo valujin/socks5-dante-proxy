@@ -6,27 +6,13 @@ A compact [Dante](https://www.inet.no/dante/) SOCKS5 proxy container image based
 > Sometimes, we all need a way to keep using our favorite apps, even if some unreliable
 > group of people dictates us not to.
 
-## Usage
-
-The container image is available as [`docker.io/aeron/socks5-dante-docker`][docker] and
-[`ghcr.io/Aeron/socks5-dante-docker`][github]. You can use both interchangeably.
-
-```sh
-docker pull docker.io/aeron/socks5-dante-docker
-# …or…
-docker pull ghcr.io/aeron/socks5-dante-docker
-```
-
-[docker]: https://hub.docker.com/r/aeron/socks5-dante-docker
-[github]: https://github.com/Aeron/socks5-dante-proxy/pkgs/container/socks5-dante-proxy
-
 ### Container Running
 
 Running a container is pretty straightforward:
 
 ```sh
 docker run -d --restart unless-stopped --name dante \
-    -p 1080/1080:tcp \
+    -p 18989/18989:tcp \
     -e WORKERS=4 \
     -e CONFIG=/etc/sockd.conf \
     docker.io/aeron/socks5-dante-docker:latest
@@ -90,7 +76,7 @@ To save or restore existing users, mount `/etc/passwd` and `/etc/shadow` files:
 
 ```sh
 docker run -d --restart unless-stopped --name dante \
-    -p 1080/1080:tcp \
+    -p 18989/18989:tcp \
     -v /path/to/passwd:/etc/passwd:rw \
     -v /path/to/shadow:/etc/shadow:rw \
     docker.io/aeron/socks5-dante-docker:latest
@@ -103,7 +89,7 @@ Replace the `/path/to/passwd` and `/path/to/shadow` with preferred file paths.
 To verify that everything works correctly, use the following:
 
 ```sh
-curl --socks5 username:password@host:1080 -L http://ifconfig.co
+curl --socks5 username:password@host:18989 -L http://ifconfig.co
 ```
 
 The result must be different from your current IP address.

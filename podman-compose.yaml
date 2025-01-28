@@ -9,9 +9,9 @@ services:
     network_mode: "pasta:--outbound-if4,ens4"
     environment:
       - PORT=18989
-      - ETH="ens4"
+      - ETH=ens4
       - WORKERS=10
-      - DEFAULT_DANTE_USER="valuxin"
-      - DEFAULT_DANTE_USER_PASSWORD="A6mGRDorfbX5aRaN"
+      - DEFAULT_DANTE_USER=valuxin
+      - DEFAULT_DANTE_USER_PASSWORD=A6mGRDorfbX5aRaN
     # volumes:
     #   - /docker/dante/dante.conf:/srv/dante.conf

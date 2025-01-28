@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   dante:
-    image: docker.io/valuxin/socks5-dante-docker:latest
+    image: docker.io/valuxin/socks5-dante-proxy:latest
     container_name: dante
     restart: unless-stopped
     ports:

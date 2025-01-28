@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  dante:
+    image: docker.io/valuxin/socks5-dante-docker:latest
+    container_name: dante
+    restart: unless-stopped
+    ports:
+      - "18989:18989"
+    network_mode: "pasta:--outbound-if4,ens4"
+    environment:
+      - PORT=18989
+      - ETH="ens4"
+      - WORKERS=10
+      - DEFAULT_DANTE_USER="valuxin"
+      - DEFAULT_DANTE_USER_PASSWORD="A6mGRDorfbX5aRaN"
+    # volumes:
+    #   - /docker/dante/dante.conf:/srv/dante.conf

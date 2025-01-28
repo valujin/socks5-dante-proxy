@@ -11,6 +11,11 @@ fi
 
 # Set default port if not provided
 PORT=${PORT:-18989}
+WORKERS=${WORKERS:-10}
+CONFIG="/srv/dante.conf"
+ETH=${ETH:-eth0}
+DEFAULT_DANTE_USER=${DEFAULT_DANTE_USER:-user}
+DEFAULT_DANTE_USER_PASSWORD=${DEFAULT_DANTE_USER_PASSWORD:-p4ZNcBXvw5IIygQN}
 
 # Replace port placeholder in dante.conf
 sed -i "s/__PORT__/$PORT/g" "/srv/dante.conf"
@@ -55,11 +60,11 @@ case "$1" in
         deluser --quiet --system "$2" 2> /dev/null
         ;;
     'start')
-        # Check if user razrab exists. If not, create it
-        if ! id -u razrab > /dev/null 2>&1; then
-            adduser --quiet --system --no-create-home razrab
-            # default password for razrab user is p4ZNcBXvw5IIygQN
-            echo "razrab:p4ZNcBXvw5IIygQN" | chpasswd
+        # Check if user exists. If not, create it
+        if ! id -u $DEFAULT_DANTE_USER > /dev/null 2>&1; then
+            adduser --quiet --system --no-create-home $DEFAULT_DANTE_USER
+            # default password for user is p4ZNcBXvw5IIygQN
+            echo "$DEFAULT_DANTE_USER:$DEFAULT_DANTE_USER_PASSWORD" | chpasswd
         fi
         danted -N "$WORKERS" -f "$CONFIG"
         ;;

@@ -19,6 +19,8 @@ DEFAULT_DANTE_USER_PASSWORD=${DEFAULT_DANTE_USER_PASSWORD:-p4ZNcBXvw5IIygQN}
 
 # Replace port placeholder in dante.conf
 sed -i "s/__PORT__/$PORT/g" "/srv/dante.conf"
+# Replace eth placeholder in dante.conf
+sed -i "s/__ETH__/$ETH/g" "/srv/dante.conf"
 
 # shellcheck disable=SC2016
 HELP='Usage: /entrypoint.sh [COMMAND [PARAMS..]]
